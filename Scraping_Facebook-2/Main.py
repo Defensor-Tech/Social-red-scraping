@@ -27,11 +27,22 @@ chrome_options.add_experimental_option("prefs",prefs)
 
 
 def P_Facebook():
+
+    proxies = {
+        
+       'http': 'http://181.224.207.18:999',
+       'http': 'http://181.36.121.150:999',
+       'http': 'http://190.8.47.190:999',
+       'http': 'http://181.37.179.49:999',
+    }
+
+    
     # options = Options()
     # options.add_argument("--headless")
 
     driver = webdriver.Chrome(PATH, chrome_options=chrome_options)
-    driver.get("https://www.facebook.com/")
+
+    driver.get("https://www.facebook.com/", proxies=proxies)
 
     print("Iniciando Facebook")
 
@@ -55,9 +66,13 @@ def P_Facebook():
     time.sleep(15)
 
     with driver as window:
-        window.get("https://m.facebook.com/DefensorRD")
+        
+        url = window.get("https://m.facebook.com/DefensorRD")
 
         time.sleep(15)
+
+        response = requests.get(url,proxies=proxies)
+        print(response.json())
 
         container = window.find_elements(By.TAG_NAME,"article") 
 
@@ -100,6 +115,7 @@ def P_Facebook():
         # driver.close()
 
     # driver.close()
+    print
     driver.quit()
 
 def Main():
@@ -111,24 +127,24 @@ def Main():
     # s.stop()
     P_Facebook()
 
-def IP_CHANGE():
+# def IP_CHANGE():
 
-    url = 'https://m.facebook.com/DefensorRD'
+#     url = 'https://m.facebook.com/DefensorRD'
     
-    #ip address de republica dominicana
-    proxies = {
-    'http': 'http://181.224.207.18:999',
-    'http': 'http://181.36.121.150:999',
-    'http': 'http://190.8.47.190:999',
-    'http': 'http://181.37.179.49:999',
+#     #ip address de republica dominicana
+#     proxies = {
+#     'http': 'http://181.224.207.18:999',
+#     'http': 'http://181.36.121.150:999',
+#     'http': 'http://190.8.47.190:999',
+#     'http': 'http://181.37.179.49:999',
 
 
-    }
-    response = requests.get(url, proxies=proxies)
+#     }
+#     response = requests.get(url, proxies=proxies)
 
-    print(response.status_code)
-    print(response.json())
+#     print(response.status_code)
+#     print(response.json())
     
-    # P_Facebook()
+#     # P_Facebook()
 
 P_Facebook()
