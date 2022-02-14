@@ -33,7 +33,8 @@ with driver as window:
 
         titulo = element.find_element(By.CLASS_NAME,'_5rgt').text 
         megusta = element.find_element(By.CLASS_NAME,'_1g06').text
-        coment = element.find_element(By.XPATH,"/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div[5]/section/article[2]/footer/div/div[1]/a/div/div[2]").find_element(By.CLASS_NAME,'_1j-c').text
+        sharedcomenst = element.find_element(By.CLASS_NAME,'_1j-c').text
+    
         try: 
             linkk = element.find_element(By.CLASS_NAME,'_5msj') 
             if linkk: 
@@ -41,15 +42,14 @@ with driver as window:
         except Exception as e: 
             print(e) 
             pass 
-        
-        # try: 
-        #     with driver as window: 
-        #         window.get(linkk) 
-        #         #cometarios = window.find_element(By.CLASS_NAME,"_14v5").f
-        #         #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
-        # except Exception as e: 
-        #     print(e) 
-        #     time.sleep(16) 
+        try: 
+            with window as window: 
+                window.get(linkk) 
+                cometarios = window.find_element(By.CLASS_NAME,"_2b06").text
+                #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
+        except Exception as e: 
+            print(e) 
+            time.sleep(16)
  
-        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = megusta,comentarios = coment,shared = shared) 
+        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = megusta,sharedorcoments = sharedcomenst,comentarios = cometarios) 
         print(dic)
