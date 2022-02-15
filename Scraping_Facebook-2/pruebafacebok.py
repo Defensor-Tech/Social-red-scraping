@@ -46,7 +46,7 @@ enter.click()
 time.sleep(10) 
 with driver as window:  
     window.get("https://m.facebook.com/DefensorRD") 
-    time.sleep(10) 
+    time.sleep(2) 
  
     container = window.find_elements(By.TAG_NAME,"article") 
     for element in container: 
@@ -72,12 +72,23 @@ with driver as window:
         try: 
             with window as window: 
                 window.get(linkk) 
+
+                time.sleep(5)
+
+                contenedor = window.find_element(By.XPATH,"//div[@class='_6j_d show']")
+
+                print(contenedor.text)
+
+                atras = contenedor.find_element(By.CLASS_NAME,"_6j_c")
+
+                # atras_2 = window.find_element_by_css_selector(".reply-button").click()
+
+                print(atras.text)
+
                 cometarios = window.find_element(By.CLASS_NAME,"_2b06").text
                 #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
 
-                time.sleep(10)
-
-                atras = window.find_element(By.CLASS_NAME,"_6j_c").click() 
+                atras.click()
 
                 time.sleep(10)
 
