@@ -6,84 +6,88 @@ import time
 from selenium.webdriver.chrome.service import Service
 from dotenv import load_dotenv
 import os
+from proxy import get_proxy_arr
 
-load_dotenv()
-
-PATH = os.getenv('W_PATH')
-
+proxy_list = get_proxy_arr()
+# load_dotenv()
+# PATH = os.getenv('W_PATH')
+PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
 s = Service(PATH)
-
-opt = webdriver.ChromeOptions()
-
+#caps = webdriver.DesiredCapabilities.CHROME.copy() 
+options = webdriver.ChromeOptions()
 #ignora los certificados de seguridad y certificado
-opt.add_argument('--ignore-certificate-error')
+options.add_argument('--ignore-certificate-error')
 
 #ignora los certificados que sean erroneos
-opt.add_argument('--ignore-certificate-errors-spki-list')
+options.add_argument('--ignore-certificate-errors-spki-list')
 
 #desactiva los errores que pueda dar  el ssl
-opt.add_argument('--ignore-ssl-errors')
+options.add_argument('--ignore-ssl-errors')
 
-#DesiredCapabilities
+#options.add_argument('--user-agent=%s' % ua)
+#caps['acceptInsecureCerts'] = True
+url = 'https://www.facebook.com/'
 
-caps = webdriver.DesiredCapabilities.CHROME.copy() 
+for eachProxy in proxy_list[1:]:
 
-caps['acceptInsecureCerts'] = True
-
+    try:
+        
+        options.add_argument('--proxy-server=%s' % eachProxy['proxy'])
+        print('--proxy-server=%s' % eachProxy['proxy'])
+        driver = webdriver.Chrome(service = s,options=options)
+        driver.get(url)
+        time.sleep(10)
+    except:
+        print(eachProxy["proxy"] + " is not working")
  
-# PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
-url = 'https://www.facebook.com/' 
- 
-driver = webdriver.Chrome(service = s, options=opt, desired_capabilities=caps) 
-driver.get(url) 
- 
-username =driver.find_element(By.ID, 'email') 
-password = driver.find_element(By.ID, 'pass')    
-username.send_keys('jc7645085@gmail.com') 
-password.send_keys('Frias123vv') 
-enter = driver.find_element(By.NAME,'login') 
-enter.click() 
-time.sleep(10) 
-with driver as window:  
-    window.get("https://m.facebook.com/DefensorRD") 
+    username =driver.find_element(By.ID, 'email') 
+    password = driver.find_element(By.ID, 'pass')    
+    username.send_keys('jc7645085@gmail.com') 
+    password.send_keys('Frias123vv') 
+    enter = driver.find_element(By.NAME,'login') 
+    time.sleep(5)
+    enter.click() 
     time.sleep(10) 
- 
-    container = window.find_elements(By.TAG_NAME,"article") 
-    for element in container: 
-        titulo = None 
-        fuente = 'facebook' 
-        linkk = None 
-        cometarios = None 
-        megusta = None
-        coment = None
-        shared = None
-
-        titulo = element.find_element(By.CLASS_NAME,'_2pim').text 
-        megusta = element.find_element(By.CLASS_NAME,'_1g06').text
-        sharedcomenst = element.find_element(By.CLASS_NAME,'_1j-c').text
+    with driver as window:  
+        window.get("https://m.facebook.com/DefensorRD") 
+        time.sleep(10) 
     
-        try: 
-            linkk = element.find_element(By.CLASS_NAME,'_5msj') 
-            if linkk: 
-                linkk = linkk.get_attribute('href') 
-        except Exception as e: 
-            print(e) 
-            pass 
-        try: 
-            with window as window: 
-                window.get(linkk) 
-                cometarios = window.find_element(By.CLASS_NAME,"_2b06").text
-                #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
+        container = window.find_elements(By.TAG_NAME,"article") 
+        for element in container: 
+            titulo = None 
+            fuente = 'facebook' 
+            linkk = None 
+            cometarios = None 
+            megusta = None
+            coment = None
+            shared = None
 
-                time.sleep(10)
+            titulo = element.find_element(By.CLASS_NAME,'_2pim').text 
+            megusta = element.find_element(By.CLASS_NAME,'_1g06').text
+            sharedcomenst = element.find_element(By.CLASS_NAME,'_1j-c').text
+        
+            try: 
+                linkk = element.find_element(By.CLASS_NAME,'_5msj') 
+                if linkk: 
+                    linkk = linkk.get_attribute('href') 
+            except Exception as e: 
+                print(e) 
+                pass 
+            try: 
+                with window as window: 
+                    window.get(linkk) 
+                    cometarios = window.find_element(By.CLASS_NAME,"_2b06").text
+                    #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
 
-                atras = window.find_element(By.CLASS_NAME,"_6j_c").click() 
+                    time.sleep(10)
 
-                time.sleep(10)
+                    atras = window.find_element(By.CLASS_NAME,"_6j_c").click() 
 
-        except Exception as e: 
-            print(e) 
-            time.sleep(16)
- 
-        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = megusta,sharedorcoments = sharedcomenst,comentarios = cometarios) 
-        print(dic)
+                    time.sleep(10)
+
+            except Exception as e: 
+                print(e) 
+                time.sleep(16)
+    
+            dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = megusta,sharedorcoments = sharedcomenst,comentarios = cometarios) 
+            print(dic)
