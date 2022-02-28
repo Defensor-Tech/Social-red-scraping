@@ -113,7 +113,9 @@ with driver as window:
             with webdriver.Chrome(PATH) as window: 
                 window.get(linkk) 
                 try:
-                    cometarios = window.find_element(By.CLASS_NAME,'_2b06').text
+                    nombre = window.find_element(By.CLASS_NAME,'_2b05').text
+                    comentario = window.find_element(By.CSS_SELECTOR,'data-commentid').text
+                    nombre = nombre + ': ' + comentario
                 except Exception as e:
                     cometarios = None
                 #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
