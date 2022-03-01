@@ -1,5 +1,7 @@
 from typing import Container 
-from selenium import webdriver 
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options 
 from selenium.webdriver.common.by import By 
 import time 
@@ -38,7 +40,8 @@ def scroll(driver):
     last_height = driver.execute_script("return document.body.scrollHeight")
 
     while True:
-        window.find_elements(By.TAG_NAME, 'article')
+        if len(window.find_elements(By.TAG_NAME, 'article')) >= 100:
+            break
             
         # Scroll down to bottom
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -87,10 +90,10 @@ with driver as window:
         linkk = None 
         cometarios = None 
         likes = None
-        coment = None
+        nombre = None
         shared = None
 
-        
+        time.sleep(2)
         titulo = element.find_element(By.CLASS_NAME,'_5rgt').text 
         try:
             likes = element.find_element(By.CLASS_NAME,'_1g06').text
@@ -98,11 +101,13 @@ with driver as window:
              likes = None
 
         try:
+            time.sleep(2)
             sharedcomenst = element.find_element(By.CLASS_NAME,'_1j-c').text
         except Exception as e:
             sharedcomenst = None
     
         try: 
+            time.sleep(2)
             linkk = element.find_element(By.CLASS_NAME,'_5msj') 
             if linkk: 
                 linkk = linkk.get_attribute('href') 
@@ -113,9 +118,15 @@ with driver as window:
             with webdriver.Chrome(PATH) as window: 
                 window.get(linkk) 
                 try:
-                    nombre = window.find_element(By.CLASS_NAME,'_2b05').text
-                    comentario = window.find_element(By.CSS_SELECTOR,'data-commentid').text
-                    nombre = nombre + ': ' + comentario
+                    time.sleep(2)
+                    elemento = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "_2b05")))
+                    #elemento = window.find_elements(By.CLASS_NAME,"_2b05")
+                    print("este elemento es para cesar",elemento)
+                    # for element in elemento:
+                    #     nombre = element.find_element(By.TAG_NAME,'a').text
+                    #     comentario = element.find_element(By.CSS_SELECTOR,'data-sigil').text
+                    #     cometarios = nombre + ': ' + comentario
+
                 except Exception as e:
                     cometarios = None
                 #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
