@@ -1,16 +1,19 @@
+from lib2to3.pgen2.driver import Driver
 from tkinter import Button 
-from turtle import title 
+from turtle import right, title 
 from selenium import webdriver 
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.support import expected_conditions as EC 
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.support.wait import WebDriverWait 
+from selenium.webdriver.chrome.service import Service
 import time 
  
-PATH = "C:/Users/frias/Downloads/chromedriver_win32 (1)/chromedriver" 
+PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
+s = Service(PATH)
 url = 'https://www.instagram.com/' 
  
-driver = webdriver.Chrome(PATH) 
+driver = webdriver.Chrome(service = s) 
 driver.get(url) 
  
 username = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"input[name='username']"))) 
@@ -24,7 +27,7 @@ password.send_keys("Frias123vv")
 button = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button[type='submit']"))) 
 button.click() 
 not_now = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
-#not_now2 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
+not_now2 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
  
 searchbox = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Search']"))) 
 searchbox.clear() 
@@ -40,15 +43,26 @@ time.sleep(5)
 searchbox.send_keys(Keys.ENTER) 
 time.sleep(5) 
  
-driver.execute_script("window.scrollTo(0,4000);") 
- 
-post = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//div[@class="v1Nh3 kIKUG  _bz0w"]'))) 
-post.click() 
-titulo = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//div[@class="C4VMK"]'))) 
-print(titulo.text) 
- 
- 
- 
-# titulo1 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//div[@class="C4VMK"]'))) 
-# for titulos in titulo1: 
-#     print(titulos.text)
+post = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='_9AhH0']")))
+post.click()
+while True:
+    titulo = None#   
+    fuente = 'Instagram'#
+    linkk = None 
+    cometarios = None 
+    likes = None
+    nombre = None
+    shared = None
+    try:
+        titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@class='_7UhW9   xLCgt      MMzan   KV-D4           se6yk       T0kll ']"))).text
+        linkk = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//a[@class='_8A5w5']"))).get_attribute('href')
+        dic = dict(titulo=titulo, fuente=fuente)
+        print(dic)
+        rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
+        for left in rightt:
+            left.click()
+
+    except Exception as e:
+        print(e)
+        #print("No hay mas posts")
+        break
