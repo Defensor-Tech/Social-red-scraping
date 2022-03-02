@@ -115,24 +115,25 @@ with driver as window:
             print(e) 
             pass 
         try: 
-            with webdriver.Chrome(PATH) as window: 
-                window.get(linkk) 
-                try:
-                    time.sleep(2)
-                    elemento = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "_2b05")))
-                    #elemento = window.find_elements(By.CLASS_NAME,"_2b05")
-                    print("este elemento es para cesar",elemento)
-                    # for element in elemento:
-                    #     nombre = element.find_element(By.TAG_NAME,'a').text
-                    #     comentario = element.find_element(By.CSS_SELECTOR,'data-sigil').text
-                    #     cometarios = nombre + ': ' + comentario
-
-                except Exception as e:
-                    cometarios = None
-                #shared = window.find_element(By.XPATH,"//div[@data-sigil='share-count']").text
-
+            # Lets open https://www.bing.com/ in the second tab
+            window.execute_script("window.open('about:blank','secondtab');")
+            window.switch_to.window("secondtab")
+            window.get(linkk)
+            time.sleep(15)
+            try:
                 time.sleep(10)
-
+                window.save_screenshot('sample_screenshot_1.png')
+                #elemento = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "_333v")))
+                elemento = window.find_elements(By.CLASS_NAME,"_2b06")
+                for element in elemento:
+                    nombre = element.find_element(By.CLASS_NAME,'_2b05').text
+                    comentario = window.find_element(By.XPATH,"//div[@data-sigil='comment-body']").text
+                    cometarios = nombre + ': ' + comentario
+            except Exception as e:
+                cometarios = None
+                time.sleep(5)
+            window.close()
+            window.switch_to.window(window.window_handles[0])
         except Exception as e: 
             print(e) 
             time.sleep(16)
