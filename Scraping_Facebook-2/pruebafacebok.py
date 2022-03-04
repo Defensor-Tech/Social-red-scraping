@@ -32,7 +32,6 @@ url = 'https://facebook.com/'
 
 # for eachProxy in proxy_list[1:]:
 
-
 def scroll(driver):
     SCROLL_PAUSE_TIME = 5
 
