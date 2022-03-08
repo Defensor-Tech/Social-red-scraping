@@ -1,3 +1,4 @@
+from imghdr import what
 from typing import Container 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -77,17 +78,16 @@ time.sleep(5)
 enter.click() 
 time.sleep(10) 
 with driver as window:  
-    window.get("https://m.facebook.com/DefensorRD") 
+    window.get("https://m.facebook.com/LuisAbinaderCorona") 
     time.sleep(10) 
 
     
     container = scroll(driver)
-    print(len(container))
     for element in container: 
         titulo = None   
         fuente = 'facebook' 
         linkk = None 
-        cometarios = None 
+        cometarios = [] 
         likes = None
         nombre = None
         shared = None
@@ -120,22 +120,27 @@ with driver as window:
             window.get(linkk)
             time.sleep(15)
             try:
-                time.sleep(10)
-                window.save_screenshot('sample_screenshot_1.png')
-                #elemento = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "_333v")))
+                time.sleep(5)
+                #window.save_screenshot('sample_screenshot_1.png') 
+                
+                # vermas = WebDriverWait(window,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'_108_'))) 
+                # vermas.click()
                 elemento = window.find_elements(By.CLASS_NAME,"_2b06")
                 for element in elemento:
                     nombre = element.find_element(By.CLASS_NAME,'_2b05').text
-                    comentario = window.find_element(By.XPATH,"//div[@data-sigil='comment-body']").text
-                    cometarios = nombre + ': ' + comentario
+                    time.sleep(5)
+                    comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
+                    cometario = nombre + ': ' + comentario.text
+                    cometarios.append(cometario)
             except Exception as e:
-                cometarios = None
+                print(e)
                 time.sleep(5)
+
             window.close()
             window.switch_to.window(window.window_handles[0])
         except Exception as e: 
             print(e) 
-            time.sleep(16)
+            time.sleep(5)
 
         dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios) 
         print(dic)
