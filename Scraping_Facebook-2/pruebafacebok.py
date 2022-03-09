@@ -118,20 +118,39 @@ with driver as window:
             window.execute_script("window.open('about:blank','secondtab');")
             window.switch_to.window("secondtab")
             window.get(linkk)
-            time.sleep(15)
+            time.sleep(2)
             try:
-                time.sleep(5)
-                #window.save_screenshot('sample_screenshot_1.png') 
-                
-                # vermas = WebDriverWait(window,10).until(EC.element_to_be_clickable((By.CLASS_NAME,'_108_'))) 
-                # vermas.click()
-                elemento = window.find_elements(By.CLASS_NAME,"_2b06")
-                for element in elemento:
-                    nombre = element.find_element(By.CLASS_NAME,'_2b05').text
-                    time.sleep(5)
-                    comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
-                    cometario = nombre + ': ' + comentario.text
-                    cometarios.append(cometario)
+                SCROLL_PAUSE_TIME = 2
+                last_height = window.execute_script("return document.body.scrollHeight")
+                while True:
+                    if len(window.find_elements(By.CLASS_NAME,'_108_')) >= 100:
+                        break
+                    # Scroll down to bottom
+                    window.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                    time.sleep(SCROLL_PAUSE_TIME)
+                    try:
+                        driver.find_element(By.CLASS_NAME,'_108_').click()
+                    except Exception as e:
+                        pass
+                      # Scroll down to bottom
+                    window.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+                    # Wait to load page
+                    time.sleep(SCROLL_PAUSE_TIME)
+
+                    # Calculate new scroll height and compare with last scroll height
+                    new_height = window.execute_script("return document.body.scrollHeight") 
+                    if new_height == last_height:
+                        elemento = window.find_elements(By.CLASS_NAME,"_2b06")
+                        for element in elemento:
+                            nombre = element.find_element(By.CLASS_NAME,'_2b05').text
+                            time.sleep(1)
+                            comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
+                            cometario = nombre + ': ' + comentario.text
+                            cometarios.append(cometario)
+                        break
+                    last_height = new_height
+               
             except Exception as e:
                 print(e)
                 time.sleep(5)
