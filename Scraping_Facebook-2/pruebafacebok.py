@@ -141,6 +141,7 @@ with driver as window:
                     # Calculate new scroll height and compare with last scroll height
                     new_height = window.execute_script("return document.body.scrollHeight") 
                     if new_height == last_height:
+
                         elemento = window.find_elements(By.CLASS_NAME,"_2b06")
                         for element in elemento:
                             nombre = element.find_element(By.CLASS_NAME,'_2b05').text

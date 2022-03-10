@@ -34,7 +34,7 @@ searchbox = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH
 searchbox.clear() 
  
 #search for the hashtag cat 
-keyword = "defensorrd" 
+keyword = "luisabinader" 
 searchbox.send_keys(keyword) 
   
 # Wait for 5 seconds 
@@ -50,24 +50,47 @@ while True:
     titulo = None#   
     fuente = 'Instagram'#
     linkk = None# 
-    cometarios = None# 
+    cometarios = []
     likes = None
     try:
         
         titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@class='_7UhW9   xLCgt      MMzan   KV-D4           se6yk       T0kll ']")))
+        time.sleep(1)
         titulo =titulo.text
-        cometarios = driver.find_elements(By.CLASS_NAME, "C4VMK")
-        for comentario in cometarios:
-            comentarios =comentario.text
+
+        try:
+            
+            
+            def recursiveclick(invertal):
+                try:
+                    contu = driver.find_element(By.XPATH,"/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/div[1]/ul/li/div/button")
+                    contu.click()
+                    time.sleep(invertal)
+                    recursiveclick(4)
+                except Exception as e:
+                    print(e)
+                    return
+            
+            recursiveclick(4)
+
+            elemento = driver.find_elements(By.CLASS_NAME, "C4VMK")
+            for element in elemento:
+                time.sleep(2)        
+                nombre =  element.find_element(By.CLASS_NAME,"_6lAjh ").text
+                comentari = element.find_element(By.CLASS_NAME,"MOdxS ")
+                coment = nombre + ": " + comentari.text
+                cometarios.append(coment)
+        except Exception as e:
+            print(e)
+
+
 
         linkk = driver.current_url
-        likeviews = driver.find_elements(By.CLASS_NAME, "             qF0y9          Igw0E     IwRSH      eGOV_        vwCYk   YlhBV                                                                                                            ")
-        for likeview in likeviews:
-            likes =likeview.text
+
         rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
         for left in rightt:
             left.click()
-        dic = dict(titulo=titulo, fuente=fuente,likes=likes,cometarios=comentarios,linkk=linkk)
+        dic = dict(titulo=titulo, fuente=fuente,likes=likes,cometarios=cometarios,linkk=linkk)
         print(dic)
 
     except Exception as e:
