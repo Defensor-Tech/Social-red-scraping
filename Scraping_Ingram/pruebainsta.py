@@ -8,11 +8,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait 
 from selenium.webdriver.chrome.service import Service
 import time 
+from Services import Database
  
 PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
 s = Service(PATH)
 
 def scraping_instagram():
+    datos = []
     url = 'https://www.instagram.com/' 
     
     driver = webdriver.Chrome(service = s) 
@@ -50,7 +52,8 @@ def scraping_instagram():
     time.sleep(5) 
     searchbox.send_keys(Keys.ENTER) 
     time.sleep(5) 
-    
+
+    time.sleep(4)
     post = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='_9AhH0']")))
     post.click()
     while True:
@@ -90,17 +93,17 @@ def scraping_instagram():
 
             linkk = driver.current_url
 
-            likes = driver.find_element(By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/div/div/a/div/span").text
-            views = driver.find_element(By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/span/div/span").text
-            likes = likes + " " + views
-
-
+            # likes = driver.find_element(By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/div/div/a/div/span").text
+            # views = driver.find_element(By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/span/div/span").text
+            # likes = likes + " " + views
 
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
                 left.click()
-            dic = dict(titulo=titulo, fuente=fuente,likes=likes,cometarios=cometarios,linkk=linkk)
-            print(dic)
+            dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk)
+            datos.append(dic)
+            Database.insert_data2(datos)
+            print(datos)
 
         except Exception as e:
             print(e)

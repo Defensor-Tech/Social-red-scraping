@@ -20,8 +20,8 @@ s = sched.scheduler(time.time, time.sleep)
 
 def do_something(sc):
     
-    scraping_faceook()
-    print("FACEBOOK")
+    # scraping_faceook()
+    # print("FACEBOOK")
     scraping_instagram()
     print("INSTAGRAM")
     

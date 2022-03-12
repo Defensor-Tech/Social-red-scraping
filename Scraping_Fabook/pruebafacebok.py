@@ -1,4 +1,5 @@
 from imghdr import what
+from pkgutil import get_data
 from typing import Container 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,6 +10,7 @@ import time
 from selenium.webdriver.chrome.service import Service
 from dotenv import load_dotenv
 import os
+from Services import Database
 #from proxy import get_proxy_arr
 
 #proxy_list = get_proxy_arr()
@@ -16,6 +18,8 @@ import os
 # PATH = os.getenv('W_PATH')
 
 def scraping_faceook():
+    datos = []
+    
     PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
     s = Service(PATH)
     #caps = webdriver.DesiredCapabilities.CHROME.copy() 
@@ -42,7 +46,7 @@ def scraping_faceook():
         last_height = driver.execute_script("return document.body.scrollHeight")
 
         while True:
-            if len(window.find_elements(By.TAG_NAME, 'article')) >= 10:
+            if len(window.find_elements(By.TAG_NAME, 'article')) >= 1:
                 break
                 
             # Scroll down to bottom
@@ -152,6 +156,7 @@ def scraping_faceook():
                         last_height = new_height
                 
                 except Exception as e:
+                    cometarios = None
                     print(e)
                     time.sleep(2)
 
@@ -162,6 +167,8 @@ def scraping_faceook():
                 time.sleep(2)
 
             dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios) 
+            datos.append(dic) 
+            Database.insert_data(datos)
             print(dic)
 
 
