@@ -1,12 +1,15 @@
+from datetime import date
 from email.mime import base
 from imghdr import what
 from pkgutil import get_data
-from typing import Container 
+from typing import Container
+from xmlrpc.client import DateTime 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options 
 from selenium.webdriver.common.by import By 
+from datetime import datetime
 import time 
 from selenium.webdriver.chrome.service import Service
 from dotenv import load_dotenv
@@ -111,17 +114,27 @@ def scraping_faceook():
             except Exception as e:
                 sharedcomenst = "0"
 
-            # def convert_time(input_format='%Y-%m-%d',str_date,output_format='%d/%m/%Y'):
-            #     from datetime import datetime
-            #     fecha_dt = datetime.strptime(input_format,str_date).strftime(output_format)
-            #     return fecha_dt
+            meses = {'enero':'01', 'febrero':'02', 'marzo':'03', 'abril':'04', 'mayo':'05', 'junio':'06', 'julio':'07', 'agosto':'08', 'septiembre':'09', 'octubre':'10', 'noviembre':'11', 'diciembre':'12'}
+            def get_month(fehcha: str):
+
+                keys = meses.keys()
+                
+                for key in keys:
+                    if fehcha.find(key)!= -1:
+                        return meses[key]
+
 
             try:
                 basefecha = element.find_element(By.CLASS_NAME,'_4g34 ')
                 fecha = basefecha.find_element(By.TAG_NAME,'abbr')
                 fecha = fecha.text
+                if len(fecha) <= 7 :
+                    fecha = datetime.now().strftime('yyyy-mm-dd')  
+                
+                fecha = fecha[0:1] + "/" + str(get_month(fecha)) + "/" + fecha[-4:]   
             except Exception as e:
-                fecha = None
+                print(e)
+                fecha = None 
         
             try: 
                 linkk = element.find_element(By.CLASS_NAME,'_5msj') 

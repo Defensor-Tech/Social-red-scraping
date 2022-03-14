@@ -112,6 +112,7 @@ def scraping_instagram():
             fecha = fecha.get_attribute('datetime')
 
 
+
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
                 left.click()
