@@ -43,7 +43,7 @@ def scraping_instagram():
     searchbox.clear() 
     
     #search for the hashtag cat 
-    keyword = "luisabinader" 
+    keyword = "defensorrd" 
     searchbox.send_keys(keyword) 
     
     # Wait for 5 seconds 
@@ -62,6 +62,7 @@ def scraping_instagram():
         linkk = None# 
         cometarios = []#
         likes = None#
+        fecha = None#
         try:
             
             titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@class='_7UhW9   xLCgt      MMzan   KV-D4           se6yk       T0kll ']")))
@@ -90,17 +91,31 @@ def scraping_instagram():
                     cometarios.append(coment)
             except Exception as e:
                 print(e)
+                
+                
 
             linkk = driver.current_url
 
-            # likes = driver.find_element(By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/div/div/a/div/span").text
-            # views = driver.find_element(By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/span/div/span").text
-            # likes = likes + " " + views
+            try:
+                likes = driver.find_element(By.XPATH,"/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/div/div/a/div/span")
+                likes = likes.text
+            except Exception as e:
+                likesclick = driver.find_element(By.CLASS_NAME, "_9Ytll")
+                likesclick.click()
+                time.sleep(1)
+                likes = likesclick.find_element(By.XPATH,"//div[@class='vJRqr']")
+                likes = likes.text
+
+
+            basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
+            fecha = basefecha.find_element(By.TAG_NAME,'time')
+            fecha = fecha.get_attribute('datetime')
+
 
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
                 left.click()
-            dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk)
+            dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha)
             datos.append(dic)
             Database.insert_data2(datos)
             print(datos)

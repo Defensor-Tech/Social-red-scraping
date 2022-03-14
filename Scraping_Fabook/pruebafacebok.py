@@ -1,3 +1,4 @@
+from email.mime import base
 from imghdr import what
 from pkgutil import get_data
 from typing import Container 
@@ -46,7 +47,7 @@ def scraping_faceook():
         last_height = driver.execute_script("return document.body.scrollHeight")
 
         while True:
-            if len(window.find_elements(By.TAG_NAME, 'article')) >= 1:
+            if len(window.find_elements(By.TAG_NAME, 'article')) >= 80:
                 break
                 
             # Scroll down to bottom
@@ -84,7 +85,7 @@ def scraping_faceook():
     enter.click() 
     time.sleep(10) 
     with driver as window:  
-        window.get("https://m.facebook.com/LuisAbinaderCorona") 
+        window.get("https://m.facebook.com/DefensorRD") 
         time.sleep(10) 
 
         
@@ -96,19 +97,31 @@ def scraping_faceook():
             cometarios = [] 
             likes = None
             nombre = None
-            shared = None
+            fecha = None
 
             time.sleep(2)
             titulo = element.find_element(By.CLASS_NAME,'_5rgt').text 
             try:
                 likes = element.find_element(By.CLASS_NAME,'_1g06').text
             except Exception as e:
-                likes = None
+                likes = "0"
 
             try:
                 sharedcomenst = element.find_element(By.CLASS_NAME,'_1j-c').text
             except Exception as e:
-                sharedcomenst = None
+                sharedcomenst = "0"
+
+            # def convert_time(input_format='%Y-%m-%d',str_date,output_format='%d/%m/%Y'):
+            #     from datetime import datetime
+            #     fecha_dt = datetime.strptime(input_format,str_date).strftime(output_format)
+            #     return fecha_dt
+
+            try:
+                basefecha = element.find_element(By.CLASS_NAME,'_4g34 ')
+                fecha = basefecha.find_element(By.TAG_NAME,'abbr')
+                fecha = fecha.text
+            except Exception as e:
+                fecha = None
         
             try: 
                 linkk = element.find_element(By.CLASS_NAME,'_5msj') 
@@ -127,7 +140,7 @@ def scraping_faceook():
                     SCROLL_PAUSE_TIME = 2
                     last_height = window.execute_script("return document.body.scrollHeight")
                     while True:
-                        if len(window.find_elements(By.CLASS_NAME,'_108_')) >= 100:
+                        if len(window.find_elements(By.CLASS_NAME,'_108_')) >= 1000:
                             break
                         # Scroll down to bottom
                         window.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -156,7 +169,7 @@ def scraping_faceook():
                         last_height = new_height
                 
                 except Exception as e:
-                    cometarios = None
+                    cometarios = "0"
                     print(e)
                     time.sleep(2)
 
@@ -166,7 +179,7 @@ def scraping_faceook():
                 print(e) 
                 time.sleep(2)
 
-            dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios) 
+            dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha) 
             datos.append(dic) 
             Database.insert_data(datos)
             print(dic)
