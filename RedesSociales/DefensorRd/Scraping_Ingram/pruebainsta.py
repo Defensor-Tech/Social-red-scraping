@@ -1,3 +1,4 @@
+from datetime import datetime
 from lib2to3.pgen2.driver import Driver
 from tkinter import Button 
 from turtle import right, title 
@@ -10,40 +11,15 @@ from selenium.webdriver.chrome.service import Service
 import time 
 from Services import Database
  
-PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
-s = Service(PATH)
 
-def scraping_instagram():
+
+def scraping_instagram(keyword,pagina,driver):
     datos = []
-    url = 'https://www.instagram.com/' 
-    
-    driver = webdriver.Chrome(service = s) 
-    driver.get(url) 
-    driver.delete_all_cookies()
-    
-    username = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"input[name='username']"))) 
-    password = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"input[name='password']"))) 
-    
-    # username.clear() 
-    # username.send_keys("Make_it_exotic") 
-    # password.clear() 
-    # password.send_keys("Frias123vv") 
+    contador = 0
 
-    username.clear() 
-    username.send_keys("castillopenal0903") 
-    password.clear() 
-    password.send_keys("Frias123vv") 
-    
-    button = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button[type='submit']"))) 
-    button.click() 
-    not_now = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
-    not_now2 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
-    
     searchbox = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Search']"))) 
     searchbox.clear() 
     
-    #search for the hashtag cat 
-    keyword = "defensorrd" 
     searchbox.send_keys(keyword) 
     
     # Wait for 5 seconds 
@@ -52,10 +28,11 @@ def scraping_instagram():
     time.sleep(5) 
     searchbox.send_keys(Keys.ENTER) 
     time.sleep(5) 
-
     time.sleep(4)
+
+
     post = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='_9AhH0']")))
-    post.click()
+    post.click()  
     while True:
         titulo = None#   
         fuente = 'Instagram'#
@@ -110,13 +87,17 @@ def scraping_instagram():
             basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
             fecha = basefecha.find_element(By.TAG_NAME,'time')
             fecha = fecha.get_attribute('datetime')
+            fecha = datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%Y-%m-%d')
 
 
 
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
                 left.click()
-            dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha)
+                contador +=1
+            if contador == 100:
+                break
+            dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina)
             datos.append(dic)
             Database.insert_data2(datos)
             print(datos)

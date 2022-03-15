@@ -15,7 +15,6 @@ def insert_data(data):
     users_ref = ref.child('RedSocial').child('Facebook')
     users_ref.set(data)
     print(users_ref,"Insertado")
-
 def insert_data2(data):
     ref= db.reference('/')
     users_ref = ref.child('RedSocial').child('Instagram')
