@@ -39,7 +39,7 @@ def do_something(sc):
     time.sleep(10)
 
 
-    scraping_faceook_defensor("https://www.facebook.com/DefensorRd/", "DefensorRd",driver)
+    scraping_faceook_defensor("https://m.facebook.com/DefensorRd/", "DefensorRd",driver)
     scraping_faceook_defensor("https://m.facebook.com/acento.com.do/" , "Acento",driver)
     scraping_faceook_defensor("https://m.facebook.com/ANoticias7/", "ANoticias7",driver)
     scraping_faceook_defensor("https://m.facebook.com/cachicha/?__nodl&_rdr/", "Cachicha",driver)
@@ -72,14 +72,15 @@ def do_something(sc):
     
     try:
         username.clear() 
-        username.send_keys("Make_it_exotic") 
+        username.send_keys("castillopenal0903") 
         password.clear() 
         password.send_keys("Frias123vv") 
     except Exception as e:
         username.clear() 
-        username.send_keys("castillopenal0903") 
+        username.send_keys("Make_it_exotic") 
         password.clear() 
         password.send_keys("Frias123vv") 
+        
     
     button = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button[type='submit']"))) 
     button.click() 
@@ -88,10 +89,10 @@ def do_something(sc):
     
     
     
-    scraping_instagram_defensor("defensorrd", "DefensorRd",driver)
+    # scraping_instagram_defensor("defensorrd", "DefensorRd",driver)
     scraping_instagram_defensor("acentodiario", "Acento",driver)
-    scraping_instagram_defensor("anoticias7", "ANoticias7",driver)
-    scraping_instagram_defensor("cachicha.sd", "Cachicha",driver)
+    # scraping_instagram_defensor("anoticias7", "ANoticias7",driver)
+    # scraping_instagram_defensor("cachicha.sd", "Cachicha",driver)
     scraping_instagram_defensor("colorvisionc9", "Colorvision",driver)
     scraping_instagram_defensor("diariolibre", "DiarioLibre",driver)
     scraping_instagram_defensor("elcariberd", "ElCaribe",driver)
@@ -107,10 +108,6 @@ def do_something(sc):
     scraping_instagram_defensor("remolachanet", "Remolacha",driver)
     scraping_instagram_defensor("telesistema11rd", "telesistema",driver)
     scraping_instagram_defensor("z_digital", "Z101Digital",driver)
-
-
-
-
 
 
 

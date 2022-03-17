@@ -99,10 +99,10 @@ def scraping_instagram(keyword,pagina,driver):
                 break
             dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina)
             datos.append(dic)
-            Database.insert_data2(datos)
             print(datos)
-
+    
         except Exception as e:
             print(e)
             #print("No hay mas posts")
             break
+    Database.insert_data2(datos)

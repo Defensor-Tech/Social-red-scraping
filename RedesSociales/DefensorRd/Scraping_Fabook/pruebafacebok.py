@@ -26,14 +26,14 @@ def scraping_faceook(url2,pagina,driver):
     datos = []
     window = driver
     
-    def scroll(driver):
+    def scroll(window):
         SCROLL_PAUSE_TIME = 5
 
         # Get scroll height
         last_height = driver.execute_script("return document.body.scrollHeight")
 
         while True:
-            if len(window.find_elements(By.TAG_NAME, 'article')) >= 10:
+            if len(window.find_elements(By.TAG_NAME, 'article')) >= 100:
                 break
                 
             # Scroll down to bottom
@@ -43,13 +43,13 @@ def scraping_faceook(url2,pagina,driver):
             time.sleep(SCROLL_PAUSE_TIME)
 
             # Calculate new scroll height and compare with last scroll height
-            new_height = driver.execute_script("return document.body.scrollHeight")
+            new_height = window.execute_script("return document.body.scrollHeight")
             if new_height == last_height:
                 break
             last_height = new_height
             
             print(len(window.find_elements(By.TAG_NAME, 'article')))
-        
+
         return window.find_elements(By.TAG_NAME, 'article')
 
   
@@ -66,14 +66,21 @@ def scraping_faceook(url2,pagina,driver):
         likes = None
         nombre = None
         fecha = None
+        mas = None
 
         time.sleep(2)
         try:
-            titulo = element.find_element(By.CLASS_NAME,'_5rgt').text 
+            titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
+            masclcik = element.find_element(By.CLASS_NAME,'_5rgt').find_element(By.CSS_SELECTOR,"span[data-sigil='more']")
+            masclcik.click()
+            mas = element.find_element(By.CLASS_NAME,'text_exposed_show')
+            titulo = titulo + ' ' + mas.text
         except Exception as e:
-            titulo = None
-        except Exception as e:
-            print(e)
+            if len(element.find_elements(By.CLASS_NAME,'_5rgt')) <= 206:
+                titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
+            else:
+                titulo = None
+
         try:
             likes = element.find_element(By.CLASS_NAME,'_1g06').text
         except Exception as e:
@@ -130,7 +137,7 @@ def scraping_faceook(url2,pagina,driver):
                 SCROLL_PAUSE_TIME = 2
                 last_height = window.execute_script("return document.body.scrollHeight")
                 while True:
-                    if len(window.find_elements(By.CLASS_NAME,'_108_')) >= 1000:
+                    if len(window.find_elements(By.CLASS_NAME,'_108_')) >= 100:
                         break
                     # Scroll down to bottom
                     window.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -171,8 +178,8 @@ def scraping_faceook(url2,pagina,driver):
 
         dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina) 
         datos.append(dic) 
-        Database.insert_data(datos)
         print(dic)
+    Database.insert_data(datos)
 
 
 
