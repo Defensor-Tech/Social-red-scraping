@@ -61,9 +61,10 @@ def scraping_instagram(keyword,pagina,driver):
                 recursiveclick(4)
 
                 elemento = driver.find_elements(By.CLASS_NAME, "C4VMK")
-                for element in elemento:     
+                for element in elemento:   
                     nombre =  element.find_element(By.CLASS_NAME,"_6lAjh ").text
                     comentari = element.find_element(By.CLASS_NAME,"MOdxS ")
+                    time.sleep(1)  
                     coment = nombre + ": " + comentari.text
                     cometarios.append(coment)
             except Exception as e:

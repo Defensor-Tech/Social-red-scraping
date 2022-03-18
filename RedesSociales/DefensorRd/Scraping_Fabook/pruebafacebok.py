@@ -33,7 +33,7 @@ def scraping_faceook(url2,pagina,driver):
         last_height = driver.execute_script("return document.body.scrollHeight")
 
         while True:
-            if len(window.find_elements(By.TAG_NAME, 'article')) >= 100:
+            if len(window.find_elements(By.TAG_NAME, 'article')) >= 150:
                 break
                 
             # Scroll down to bottom
@@ -178,8 +178,9 @@ def scraping_faceook(url2,pagina,driver):
 
         dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina) 
         datos.append(dic) 
-        print(dic)
-    Database.insert_data(datos)
+        print(datos, "aqui estamos puyando")
+    data = Database.insert_data(datos)
+    print(data, f"error en pruebafacebook linea 183")
 
 
 

@@ -1,24 +1,34 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-from firebase_admin import db
 from dotenv import load_dotenv
 import os
+import pymongo
+from pymongo import MongoClient
+from http import client
 
 load_dotenv()
-TOKENSOCIAL = os.getenv("TOKENSOCIAL")
-cred = credentials.Certificate(TOKENSOCIAL)
-firebase_admin.initialize_app(cred,{'databaseURL': 'https://scraping-social-red2-default-rtdb.firebaseio.com/'})
+
+Mongoconection = os.getenv('TOKENDATABASE')
+
+client = pymongo.MongoClient(Mongoconection)
+
+db = client['sraping_social_reed']
+# print(db)
+
+collections_defensor = db['Facebook_defensor']
+# load_dotenv()
+# TOKENSOCIAL = os.getenv("TOKENSOCIAL")
+# cred = credentials.Certificate(TOKENSOCIAL)
+# firebase_admin.initialize_app(cred,{'databaseURL': 'https://scraping-social-red2-default-rtdb.firebaseio.com/'})
 
 def insert_data(data):
-    ref= db.reference('/')
-    users_ref = ref.child('RedSocial').child('Facebook')
-    users_ref.push(data)
-    print(users_ref,"Insertado")
+    # print(data, "error en la linea 21 de database maldito")
+    print("entro a insertar datos")
+    collections_defensor.insert_many(data)
+    print("datos insertados")
+    # print(collections_defensor,"Insertado")
 
-def insert_data2(data):
-    ref= db.reference('/')
-    users_ref = ref.child('RedSocial').child('Instagram')
-    users_ref.push(data)
-    print(users_ref,"Insertado")
+# def insert_data2(data):
+#     ref= db.reference('/')
+#     users_ref = ref.child('RedSocial').child('Instagram')
+#     users_ref.push(data)
+#     print(users_ref,"Insertado")
 
