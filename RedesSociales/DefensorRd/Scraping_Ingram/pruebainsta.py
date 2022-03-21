@@ -54,7 +54,6 @@ def scraping_instagram(keyword,pagina,driver):
                         time.sleep(invertal)
                         recursiveclick(4)
                     except Exception as e:
-                        print(e)
                         print("Scroll Terminado")
                         return
                 
@@ -75,14 +74,18 @@ def scraping_instagram(keyword,pagina,driver):
             linkk = driver.current_url
 
             try:
-                likes = driver.find_element(By.XPATH,"/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/div/div/a/div/span")
-                likes = likes.text
+                likes = driver.find_element(By.XPATH,"/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/section[2]/div/div/div")
+                if likes == "Be the first to ":
+                    likes = "0"
+                else:
+                    likes = likes.text
             except Exception as e:
                 likesclick = driver.find_element(By.CLASS_NAME, "_9Ytll")
                 likesclick.click()
                 time.sleep(1)
                 likes = likesclick.find_element(By.XPATH,"//div[@class='vJRqr']")
                 likes = likes.text
+                
 
 
             basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
@@ -106,4 +109,5 @@ def scraping_instagram(keyword,pagina,driver):
             print(e)
             #print("No hay mas posts")
             break
+    print(datos)
     Database.insert_data2(datos)

@@ -14,6 +14,7 @@ db = client['sraping_social_reed']
 # print(db)
 
 collections_defensor = db['Facebook_defensor']
+collections_defensor2 = db['Instagram_Defensor']
 # load_dotenv()
 # TOKENSOCIAL = os.getenv("TOKENSOCIAL")
 # cred = credentials.Certificate(TOKENSOCIAL)
@@ -26,9 +27,10 @@ def insert_data(data):
     print("datos insertados")
     # print(collections_defensor,"Insertado")
 
-# def insert_data2(data):
-#     ref= db.reference('/')
-#     users_ref = ref.child('RedSocial').child('Instagram')
-#     users_ref.push(data)
-#     print(users_ref,"Insertado")
+def insert_data2(data):
+    # print(data, "error en la linea 21 de database maldito")
+    print("entro a insertar datos")
+    collections_defensor2.insert_many(data)
+    print("datos insertados")
+    # print(collections_defensor,"Insertado")
 

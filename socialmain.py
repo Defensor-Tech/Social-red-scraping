@@ -25,17 +25,17 @@ def do_something(sc):
     #PROXY = "154.16.89.172:45785"
     #options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(service = s,options=options)
-    driver.get(url)
-    time.sleep(10)
+    # driver.get(url)
+    # time.sleep(10)
    
-    username =driver.find_element(By.ID, 'email') 
-    password = driver.find_element(By.ID, 'pass') 
-    username.send_keys('jc7645085@gmail.com') 
-    password.send_keys('Frias123vv') 
-    enter = driver.find_element(By.NAME,'login') 
-    time.sleep(5)
-    enter.click() 
-    time.sleep(10)
+    # username =driver.find_element(By.ID, 'email') 
+    # password = driver.find_element(By.ID, 'pass') 
+    # username.send_keys('jc7645085@gmail.com') 
+    # password.send_keys('Frias123vv') 
+    # enter = driver.find_element(By.NAME,'login') 
+    # time.sleep(5)
+    # enter.click() 
+    # time.sleep(10)
 
 
     # scraping_faceook_defensor("https://m.facebook.com/DefensorRd/", "DefensorRd",driver)
@@ -71,9 +71,13 @@ def do_something(sc):
     
     try:
         username.clear() 
-        username.send_keys("castillopenal0903") 
+        username.send_keys("Make_it_exotic") 
         password.clear() 
         password.send_keys("Frias123vv") 
+        # username.clear() 
+        # username.send_keys("castillopenal0903") 
+        # password.clear() 
+        # password.send_keys("Frias123vv") 
     except Exception as e:
         username.clear() 
         username.send_keys("Make_it_exotic") 
