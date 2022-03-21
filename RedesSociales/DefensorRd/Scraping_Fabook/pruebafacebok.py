@@ -15,12 +15,6 @@ from selenium.webdriver.chrome.service import Service
 from dotenv import load_dotenv
 import os
 from Services import Database
-#from proxy import get_proxy_arr
-
-#proxy_list = get_proxy_arr()
-# load_dotenv()
-# PATH = os.getenv('W_PATH')
-
 
 def scraping_faceook(url2,pagina,driver):
     datos = []
@@ -33,7 +27,7 @@ def scraping_faceook(url2,pagina,driver):
         last_height = driver.execute_script("return document.body.scrollHeight")
 
         while True:
-            if len(window.find_elements(By.TAG_NAME, 'article')) >= 150:
+            if len(window.find_elements(By.TAG_NAME, 'article')) >= 100:
                 break
                 
             # Scroll down to bottom
