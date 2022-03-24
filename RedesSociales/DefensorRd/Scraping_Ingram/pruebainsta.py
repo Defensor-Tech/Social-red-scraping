@@ -91,7 +91,12 @@ def scraping_instagram(keyword,pagina,driver):
             basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
             fecha = basefecha.find_element(By.TAG_NAME,'time')
             fecha = fecha.get_attribute('datetime')
-            fecha = datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%Y-%m-%d')
+            if fecha == "2022-03-21T22:03:30.000Z":
+                break
+            else:
+               #fecha = fecha.get_attribute('datetime')
+                fecha = datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%Y-%m-%d')
+                
 
 
 

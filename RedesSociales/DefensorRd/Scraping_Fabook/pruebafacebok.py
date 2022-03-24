@@ -21,6 +21,7 @@ def scraping_faceook(url2,pagina,driver):
     window = driver
     
     def scroll(window):
+        
         SCROLL_PAUSE_TIME = 5
 
         # Get scroll height
@@ -29,7 +30,7 @@ def scraping_faceook(url2,pagina,driver):
         while True:
             if len(window.find_elements(By.TAG_NAME, 'article')) >= 100:
                 break
-                
+
             # Scroll down to bottom
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
@@ -99,17 +100,16 @@ def scraping_faceook(url2,pagina,driver):
             basefecha = element.find_element(By.CLASS_NAME,'_4g34 ')
             fecha = basefecha.find_element(By.TAG_NAME,'abbr')
             fecha = fecha.text
-
             if len(fecha) <= 16:
                 date = datetime.date(datetime.now())
                 fecha = date.strftime('%Y/%m/%d')
             else:
-                if len(fecha) <= 29:
-                    fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + "2022"
-                else:
-                    if len(fecha) >= 30:
-                        fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + fecha[-16:-12]
-            
+                break
+            #     if len(fecha) <= 29:
+            #         fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + "2022"
+            #     else:
+            #         if len(fecha) >= 30:
+            #             fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + fecha[-16:-12]
         except Exception as e:
             print(e)
             fecha = None 
@@ -166,10 +166,11 @@ def scraping_faceook(url2,pagina,driver):
 
             window.close()
             window.switch_to.window(window.window_handles[0])
+
         except Exception as e: 
             print(e) 
             time.sleep(2)
-
+       
         dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina) 
         datos.append(dic) 
         print(datos, "aqui estamos puyando")
