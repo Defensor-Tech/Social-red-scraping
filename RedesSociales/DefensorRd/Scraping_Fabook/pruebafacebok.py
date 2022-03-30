@@ -15,7 +15,8 @@ from selenium.webdriver.chrome.service import Service
 from dotenv import load_dotenv
 import os
 from Services import Database
-
+from sentiment_analysis_spanish import sentiment_analysis
+from sklearn.feature_extraction.text import CountVectorizer
 def scraping_faceook(url2,pagina,driver):
     datos = []
     window = driver
@@ -62,19 +63,24 @@ def scraping_faceook(url2,pagina,driver):
         nombre = None
         fecha = None
         mas = None
+        sentimientocomentari = []
 
         time.sleep(2)
         try:
             titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
+            sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
             masclcik = element.find_element(By.CLASS_NAME,'_5rgt').find_element(By.CSS_SELECTOR,"span[data-sigil='more']")
             masclcik.click()
             mas = element.find_element(By.CLASS_NAME,'text_exposed_show')
             titulo = titulo + ' ' + mas.text
+            sentimiento = sentiment.sentiment(titulo)
         except Exception as e:
             if len(element.find_elements(By.CLASS_NAME,'_5rgt')) <= 206:
                 titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
+                sentimiento = sentiment.sentiment(titulo)
             else:
                 titulo = None
+                sentimiento = None
 
         try:
             likes = element.find_element(By.CLASS_NAME,'_1g06').text
@@ -155,12 +161,15 @@ def scraping_faceook(url2,pagina,driver):
                             nombre = element.find_element(By.CLASS_NAME,'_2b05').text
                             comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
                             cometario = nombre + ': ' + comentario.text
+                            sentimientocomenta =sentiment.sentiment(comentario.text)
                             cometarios.append(cometario)
+                            sentimientocomentari.append(sentimientocomenta)   
                         break
                     last_height = new_height
             
             except Exception as e:
                 cometarios = "0"
+
                 print(e)
                 time.sleep(2)
 
@@ -171,7 +180,7 @@ def scraping_faceook(url2,pagina,driver):
             print(e) 
             time.sleep(2)
        
-        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina) 
+        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina,sentimiento = sentimiento,sentiminetcomentario = sentimientocomentari)
         datos.append(dic) 
         print(datos, "aqui estamos puyando")
     data = Database.insert_data(datos)

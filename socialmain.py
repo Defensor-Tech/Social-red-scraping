@@ -21,12 +21,12 @@ def do_something(sc):
     #options.add_argument('--user-agent=%s' % ua)
     #caps['acceptInsecureCerts'] = True
     # for eachProxy in proxy_list[1:]:
-    url = 'https://facebook.com/'
-    #PROXY = "154.16.89.172:45785"
+    # url = 'https://facebook.com/'
+    # #PROXY = "154.16.89.172:45785"
     #options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(service = s,options=options)
     # driver.get(url)
-    # time.sleep(10)
+    time.sleep(10)
    
     # username =driver.find_element(By.ID, 'email') 
     # password = driver.find_element(By.ID, 'pass') 
@@ -69,7 +69,7 @@ def do_something(sc):
     
     try:
         username.clear() 
-        username.send_keys("Make_it_exotic") 
+        username.send_keys("castillopenal0903") 
         password.clear() 
         password.send_keys("Frias123vv")  
     except Exception as e:
