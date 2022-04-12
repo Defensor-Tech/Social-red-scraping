@@ -15,12 +15,14 @@ from selenium.webdriver.chrome.service import Service
 from dotenv import load_dotenv
 import os
 from Services import Database
-
+from sentiment_analysis_spanish import sentiment_analysis
+from sklearn.feature_extraction.text import CountVectorizer
 def scraping_faceook(url2,pagina,driver):
     datos = []
     window = driver
     
     def scroll(window):
+        
         SCROLL_PAUSE_TIME = 5
 
         # Get scroll height
@@ -29,7 +31,7 @@ def scraping_faceook(url2,pagina,driver):
         while True:
             if len(window.find_elements(By.TAG_NAME, 'article')) >= 100:
                 break
-                
+
             # Scroll down to bottom
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
@@ -61,19 +63,23 @@ def scraping_faceook(url2,pagina,driver):
         nombre = None
         fecha = None
         mas = None
-
+        sentimientocomentari = []
         time.sleep(2)
         try:
             titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
+            sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
             masclcik = element.find_element(By.CLASS_NAME,'_5rgt').find_element(By.CSS_SELECTOR,"span[data-sigil='more']")
             masclcik.click()
             mas = element.find_element(By.CLASS_NAME,'text_exposed_show')
             titulo = titulo + ' ' + mas.text
+            sentimiento = sentiment.sentiment(titulo)
         except Exception as e:
             if len(element.find_elements(By.CLASS_NAME,'_5rgt')) <= 206:
                 titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
+                sentimiento = sentiment.sentiment(titulo)
             else:
                 titulo = None
+                sentimiento = None
 
         try:
             likes = element.find_element(By.CLASS_NAME,'_1g06').text
@@ -99,17 +105,16 @@ def scraping_faceook(url2,pagina,driver):
             basefecha = element.find_element(By.CLASS_NAME,'_4g34 ')
             fecha = basefecha.find_element(By.TAG_NAME,'abbr')
             fecha = fecha.text
-
             if len(fecha) <= 16:
                 date = datetime.date(datetime.now())
                 fecha = date.strftime('%Y/%m/%d')
             else:
-                if len(fecha) <= 29:
-                    fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + "2022"
-                else:
-                    if len(fecha) >= 30:
-                        fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + fecha[-16:-12]
-            
+                break
+            #     if len(fecha) <= 29:
+            #         fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + "2022"
+            #     else:
+            #         if len(fecha) >= 30:
+            #             fecha = fecha[0:2] + "/" + get_month(fecha) + "/" + fecha[-16:-12]
         except Exception as e:
             print(e)
             fecha = None 
@@ -155,22 +160,26 @@ def scraping_faceook(url2,pagina,driver):
                             nombre = element.find_element(By.CLASS_NAME,'_2b05').text
                             comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
                             cometario = nombre + ': ' + comentario.text
+                            sentimientocomenta =sentiment.sentiment(comentario.text)
                             cometarios.append(cometario)
+                            sentimientocomentari.append(sentimientocomenta)   
                         break
                     last_height = new_height
             
             except Exception as e:
                 cometarios = "0"
+
                 print(e)
                 time.sleep(2)
 
             window.close()
             window.switch_to.window(window.window_handles[0])
+
         except Exception as e: 
             print(e) 
             time.sleep(2)
-
-        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina) 
+       
+        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina,sentimiento = sentimiento,sentiminetcomentario = sentimientocomentari)
         datos.append(dic) 
         print(datos, "aqui estamos puyando")
     data = Database.insert_data(datos)

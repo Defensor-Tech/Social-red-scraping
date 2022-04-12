@@ -21,12 +21,12 @@ def do_something(sc):
     #options.add_argument('--user-agent=%s' % ua)
     #caps['acceptInsecureCerts'] = True
     # for eachProxy in proxy_list[1:]:
-    url = 'https://facebook.com/'
-    #PROXY = "154.16.89.172:45785"
+    # url = 'https://facebook.com/'
+    # #PROXY = "154.16.89.172:45785"
     #options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(service = s,options=options)
     # driver.get(url)
-    # time.sleep(10)
+    time.sleep(10)
    
     # username =driver.find_element(By.ID, 'email') 
     # password = driver.find_element(By.ID, 'pass') 
@@ -58,8 +58,6 @@ def do_something(sc):
     # scraping_faceook_defensor("https://m.facebook.com/telesistema/", "telesistema",driver)
     # scraping_faceook_defensor("https://m.facebook.com/z101digital/", "Z101Digital",driver)
 
-    
-    
 
     urlins = 'https://www.instagram.com/'
     
@@ -71,13 +69,9 @@ def do_something(sc):
     
     try:
         username.clear() 
-        username.send_keys("Make_it_exotic") 
+        username.send_keys("castillopenal0903") 
         password.clear() 
-        password.send_keys("Frias123vv") 
-        # username.clear() 
-        # username.send_keys("castillopenal0903") 
-        # password.clear() 
-        # password.send_keys("Frias123vv") 
+        password.send_keys("Frias123vv")  
     except Exception as e:
         username.clear() 
         username.send_keys("Make_it_exotic") 
@@ -90,16 +84,15 @@ def do_something(sc):
     not_now = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
     not_now2 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,'//button[contains(text(), "Not Now")]'))).click() 
     
-    
-    
-    # scraping_instagram_defensor("defensorrd", "DefensorRd",driver)
-    # scraping_instagram_defensor("acentodiario", "Acento",driver)#
-    # scraping_instagram_defensor("anoticias7", "ANoticias7",driver)
-    # scraping_instagram_defensor("cachicha.sd", "Cachicha",driver)
-    # scraping_instagram_defensor("colorvisionc9", "Colorvision",driver)
-    # scraping_instagram_defensor("diariolibre", "DiarioLibre",driver)
-    # scraping_instagram_defensor("elcariberd", "ElCaribe",driver)
-    # scraping_instagram_defensor("elnuevodiariord", "ElNuevoDiario",driver)
+
+    scraping_instagram_defensor("defensorrd", "DefensorRd",driver)
+    scraping_instagram_defensor("acentodiario", "Acento",driver)
+    scraping_instagram_defensor("anoticias7", "ANoticias7",driver)
+    scraping_instagram_defensor("cachicha.sd", "Cachicha",driver)
+    scraping_instagram_defensor("colorvisionc9", "Colorvision",driver)
+    scraping_instagram_defensor("diariolibre", "DiarioLibre",driver)
+    scraping_instagram_defensor("elcariberd", "ElCaribe",driver)
+    scraping_instagram_defensor("elnuevodiariord", "ElNuevoDiario",driver)
     scraping_instagram_defensor("calientesdelsur", "Lascalientes",driver)
     scraping_instagram_defensor("listindiario", "ListinDiario",driver)
     scraping_instagram_defensor("loultimodigital", "LoultimoDigital",driver)
