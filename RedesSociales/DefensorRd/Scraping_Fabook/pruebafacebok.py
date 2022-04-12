@@ -64,7 +64,6 @@ def scraping_faceook(url2,pagina,driver):
         fecha = None
         mas = None
         sentimientocomentari = []
-
         time.sleep(2)
         try:
             titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
