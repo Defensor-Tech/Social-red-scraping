@@ -5,8 +5,7 @@ timeout = 0 # Segundos
 s = sched.scheduler(time.time, time.sleep)
 
 def do_something(sc):
-    PATH = os.getenv('W_PATH')
-    # PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver
+    PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
     s = Service(PATH)
     #caps = webdriver.DesiredCapabilities.CHROME.copy() 
     options = webdriver.ChromeOptions()
@@ -71,11 +70,14 @@ def do_something(sc):
     password = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,"input[name='password']"))) 
     
     try:
-    
         username.clear() 
-        username.send_keys("castillopenal0903") 
+        username.send_keys("Make_it_exotic") 
         password.clear() 
         password.send_keys("Frias123vv") 
+        # username.clear() 
+        # username.send_keys("castillopenal0903") 
+        # password.clear() 
+        # password.send_keys("Frias123vv") 
     except Exception as e:
         username.clear() 
         username.send_keys("Make_it_exotic") 

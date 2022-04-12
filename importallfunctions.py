@@ -11,5 +11,3 @@ import time
 import sched
 from RedesSociales.DefensorRd.Scraping_Fabook.pruebafacebok import scraping_faceook as scraping_faceook_defensor
 from RedesSociales.DefensorRd.Scraping_Ingram.pruebainsta import scraping_instagram as scraping_instagram_defensor
-from dotenv import load_dotenv
-import os
