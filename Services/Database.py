@@ -13,8 +13,8 @@ client = pymongo.MongoClient(Mongoconection)
 db = client['sraping_social_reed']
 # print(db)
 
-collections_defensor = db['Facebook_defensor']
-collections_defensor2 = db['Instagram_Defensor']
+collections_defensor = db['Facebook_json_defensor']
+collections_defensor2 = db['Instagram_json_defensor']
 # load_dotenv()
 # TOKENSOCIAL = os.getenv("TOKENSOCIAL")
 # cred = credentials.Certificate(TOKENSOCIAL)

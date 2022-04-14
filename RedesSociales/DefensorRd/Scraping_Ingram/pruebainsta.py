@@ -75,7 +75,6 @@ def scraping_instagram(keyword,pagina,driver):
                     cometarios.append(coment)
                     sentimientocomentari.append(sentimientocomenta)
                     
-
             except Exception as e:
                 print(e)
                 
