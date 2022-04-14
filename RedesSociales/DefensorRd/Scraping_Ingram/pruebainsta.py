@@ -12,7 +12,6 @@ import time
 from Services import Database
 from sentiment_analysis_spanish import sentiment_analysis
 from sklearn.feature_extraction.text import CountVectorizer
- 
 
 
 def scraping_instagram(keyword,pagina,driver):
