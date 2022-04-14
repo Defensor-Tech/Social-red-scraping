@@ -1,11 +1,14 @@
 from importallfunctions import *
+load_dotenv()
 
 #-------------------------------Actualizador automatico---------------------------------------
 timeout = 0 # Segundos
 s = sched.scheduler(time.time, time.sleep)
 
 def do_something(sc):
-    PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
+    # PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver"
+
+    PATH = os.getenv("W_PATH")
     s = Service(PATH)
     #caps = webdriver.DesiredCapabilities.CHROME.copy() 
     options = webdriver.ChromeOptions()
