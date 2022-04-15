@@ -21,6 +21,9 @@ def do_something(sc):
     #desactiva los errores que pueda dar  el ssl
     options.add_argument('--ignore-ssl-errors')
 
+    options.add_argument('--headless')
+
+
     #options.add_argument('--user-agent=%s' % ua)
     #caps['acceptInsecureCerts'] = True
     # for eachProxy in proxy_list[1:]:
@@ -41,21 +44,21 @@ def do_something(sc):
     time.sleep(10)
 
 
-    scraping_faceook_defensor("https://m.facebook.com/DefensorRd/", "DefensorRd",driver)
-    scraping_faceook_defensor("https://m.facebook.com/acento.com.do/" , "Acento",driver)
-    scraping_faceook_defensor("https://m.facebook.com/ANoticias7/", "ANoticias7",driver)
-    scraping_faceook_defensor("https://m.facebook.com/cachicha/?__nodl&_rdr/", "Cachicha",driver)
-    scraping_faceook_defensor("https://m.facebook.com/colorvisionc9/", "Colorvision",driver)
-    scraping_faceook_defensor("https://m.facebook.com/DiarioLibre/", "DiarioLibre",driver)
-    scraping_faceook_defensor("https://m.facebook.com/ElCaribe.com.do/", "ElCaribe",driver)
-    scraping_faceook_defensor("https://m.facebook.com/elnuevodiariord/", "ElNuevoDiario",driver)
-    scraping_faceook_defensor("https://m.facebook.com/lascalientesdelsur.net/", "Lascalientes",driver)
-    scraping_faceook_defensor("https://m.facebook.com/listindiario/", "ListinDiario",driver)
-    scraping_faceook_defensor("https://m.facebook.com/loultimodigital?tsid=0.5338720946387234&source=result", "LoultimoDigital",driver)
-    scraping_faceook_defensor("https://m.facebook.com/LuisAbinaderCorona", "LuisAbinader",driver)
-    scraping_faceook_defensor("https://m.facebook.com/Minuto-A-Minuto-1287877911298818/?ref=content_filter&__nodl&_rdr", "minutoaminuto",driver)
-    scraping_faceook_defensor("https://m.facebook.com/SIN24Horas/", "SIN24Horas",driver)
-    scraping_faceook_defensor("https://m.facebook.com/nuriapiera/", "Nuriapiera",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/DefensorRd/", "DefensorRd",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/acento.com.do/" , "Acento",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/ANoticias7/", "ANoticias7",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/cachicha/?__nodl&_rdr/", "Cachicha",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/colorvisionc9/", "Colorvision",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/DiarioLibre/", "DiarioLibre",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/ElCaribe.com.do/", "ElCaribe",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/elnuevodiariord/", "ElNuevoDiario",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/lascalientesdelsur.net/", "Lascalientes",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/listindiario/", "ListinDiario",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/loultimodigital?tsid=0.5338720946387234&source=result", "LoultimoDigital",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/LuisAbinaderCorona", "LuisAbinader",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/Minuto-A-Minuto-1287877911298818/?ref=content_filter&__nodl&_rdr", "minutoaminuto",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/SIN24Horas/", "SIN24Horas",driver)
+    # scraping_faceook_defensor("https://m.facebook.com/nuriapiera/", "Nuriapiera",driver)
     scraping_faceook_defensor("https://m.facebook.com/puertoplatadigital/", "puertoplatadigital",driver)
     scraping_faceook_defensor("https://m.facebook.com/remolacha.net/", "Remolacha",driver)
     scraping_faceook_defensor("https://m.facebook.com/telesistema/", "telesistema",driver)
