@@ -43,6 +43,7 @@ def scraping_instagram(keyword,pagina,driver):
         fecha = None#
         sentimiento = None#
         sentimientocomentari = []
+        
         try:
             
             titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@class='_7UhW9   xLCgt      MMzan   KV-D4           se6yk       T0kll ']")))
@@ -73,9 +74,8 @@ def scraping_instagram(keyword,pagina,driver):
                     sentimientocomenta =sentiment.sentiment(comentari.text)
                     cometarios.append(coment)
                     sentimientocomentari.append(sentimientocomenta)
-                    
             except Exception as e:
-                print(e)
+                print(e, "error en la linea 62 de scraping_instagram")
                 
                 
 
@@ -93,17 +93,18 @@ def scraping_instagram(keyword,pagina,driver):
                 time.sleep(1)
                 likes = likesclick.find_element(By.XPATH,"//div[@class='vJRqr']")
                 likes = likes.text
+                print(e,"aqui es el errorr")
                 
-
-
             basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
             fecha = basefecha.find_element(By.TAG_NAME,'time')
-            fecha = fecha.get_attribute('datetime')
-            if fecha == "2022-03-21T22:03:30.000Z":
+            # fecha = fecha.get_attribute('datetime')
+            if fecha == "1 day ago":
+                print("entro")
                 break
             else:
                #fecha = fecha.get_attribute('datetime')
                 fecha = datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%Y-%m-%d')
+        
                 
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
@@ -111,13 +112,14 @@ def scraping_instagram(keyword,pagina,driver):
                 contador +=1
             if contador == 100:
                 break
-            dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina,sentimiento=sentimiento,sentimientocomentario=sentimientocomentari)
-            datos.append(dic)
-            print(datos)
-    
+            
         except Exception as e:
             print(e)
-            #print("No hay mas posts")
-            break
-    print(datos)
-    Database.insert_data2(datos)
+            print("No hay mas posts")
+            break  
+        dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina,sentimiento=sentimiento,sentimientocomentario=sentimientocomentari)
+        datos.append(dic)
+        print(datos, "Aqui esta el dato")
+        print("aqui ess")
+        # data = Database.insert_data2(datos)
+        # print(data, f"error en pruebafacebook linea 183")
