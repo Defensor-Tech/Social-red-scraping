@@ -6,7 +6,8 @@ timeout = 0 # Segundos
 sa = sched.scheduler(time.time, time.sleep)
 
 def do_something(sc):
-    PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver.exe"
+    # PATH = "C:/Users/frias/OneDrive - Defensor del Pueblo/Desktop/chromedriver.exe"
+    PATH = "C:/Users/frias/OneDrive/Desktop/chromedriver.exe"
     # PATH = os.getenv("W_PATH")
     s = Service(PATH)
     #caps = webdriver.DesiredCapabilities.CHROME.copy() 

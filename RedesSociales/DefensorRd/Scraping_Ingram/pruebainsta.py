@@ -45,12 +45,15 @@ def scraping_instagram(keyword,pagina,driver):
         sentimientocomentari = []
         
         try:
-            
-            titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[@class='_7UhW9   xLCgt      MMzan   KV-D4           se6yk       T0kll ']")))
-            time.sleep(1)
-            titulo =titulo.text
-            sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
-            sentimiento = sentiment.sentiment(titulo)
+            try:
+                #buscando titulo
+                titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/div[1]/ul/div/li/div/div/div[2]/div[1]/span")))
+                time.sleep(1)
+                titulo =titulo.text
+                sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
+                sentimiento = sentiment.sentiment(titulo)
+            except Exception as e:
+                print(e,"No se encontro el titulo")
 
             try:
                 def recursiveclick(invertal):
@@ -97,14 +100,12 @@ def scraping_instagram(keyword,pagina,driver):
                 
             basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
             fecha = basefecha.find_element(By.TAG_NAME,'time')
-            # fecha = fecha.get_attribute('datetime')
-            if fecha == "1 day ago":
-                print("entro")
+            if fecha == "Hace 1 día" :
+                fecha = "1 dia"
                 break
             else:
-               #fecha = fecha.get_attribute('datetime')
-                fecha = datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%Y-%m-%d')
-        
+                fecha = fecha.get_attribute('datetime') 
+            print("salio")
                 
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
