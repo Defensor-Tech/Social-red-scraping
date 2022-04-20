@@ -45,6 +45,7 @@ def scraping_instagram(keyword,pagina,driver):
         sentimientocomentari = []
         
         try:
+            
             try:
                 #buscando titulo
                 titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/div[1]/ul/div/li/div/div/div[2]/div[1]/span")))
@@ -80,8 +81,6 @@ def scraping_instagram(keyword,pagina,driver):
             except Exception as e:
                 print(e, "error en la linea 62 de scraping_instagram")
                 
-                
-
             linkk = driver.current_url
 
             try:
@@ -96,24 +95,25 @@ def scraping_instagram(keyword,pagina,driver):
                 time.sleep(1)
                 likes = likesclick.find_element(By.XPATH,"//div[@class='vJRqr']")
                 likes = likes.text
-                print(e,"aqui es el errorr")
+                print(e,"error buscando likes")
                 
             basefecha = driver.find_element(By.CLASS_NAME,'NnvRN ')
-            fecha = basefecha.find_element(By.TAG_NAME,'time')
-            if fecha == "Hace 1 día" :
-                fecha = "1 dia"
+            fecha = basefecha.find_element(By.TAG_NAME,'time').text
+            print('\n'+fecha+"\n")
+            if fecha == "1 DAY AGO" :
                 break
             else:
-                fecha = fecha.get_attribute('datetime') 
+                date = datetime.date(datetime.now())
+                fecha = date.strftime('%Y/%m/%d')
             print("salio")
                 
             rightt = driver.find_elements(By.CLASS_NAME, "l8mY4")
             for left in rightt:
                 left.click()
                 contador +=1
-            if contador == 100:
+           
+            if contador == 100 or contador == fecha == "1 day ago":
                 break
-            
         except Exception as e:
             print(e)
             print("No hay mas posts")
@@ -121,6 +121,5 @@ def scraping_instagram(keyword,pagina,driver):
         dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina,sentimiento=sentimiento,sentimientocomentario=sentimientocomentari)
         datos.append(dic)
         print(datos, "Aqui esta el dato")
-        print("aqui ess")
-        # data = Database.insert_data2(datos)
-        # print(data, f"error en pruebafacebook linea 183")
+    data = Database.insert_data2(datos)
+    print(data, f"error en pruebafacebook linea 183")

@@ -137,7 +137,7 @@ def scraping_faceook(url2,pagina,driver):
                 last_height = window.execute_script("return document.body.scrollHeight")
                 while True:
                     if len(window.find_elements(By.CLASS_NAME,'_108_')) >= 100:
-                        break
+                        break   # If the page is loaded, break the loop
                     # Scroll down to bottom
                     window.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                     time.sleep(SCROLL_PAUSE_TIME)
