@@ -10,7 +10,7 @@ Mongoconection = os.getenv('TOKENDATABASE')
 
 client = pymongo.MongoClient(Mongoconection)
 
-db = client['sraping_social_reed']
+db = client['socialmediascrp']
 # print(db)
 
 collections_defensor = db['Facebook_json_defensor']
