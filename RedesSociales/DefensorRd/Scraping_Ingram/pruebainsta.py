@@ -12,7 +12,7 @@ import time
 from Services import Database
 from sentiment_analysis_spanish import sentiment_analysis
 from sklearn.feature_extraction.text import CountVectorizer
-
+from pysentimiento import create_analyzer
 
 def scraping_instagram(keyword,pagina,driver):
     datos = []
@@ -51,8 +51,10 @@ def scraping_instagram(keyword,pagina,driver):
                 titulo = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div[3]/div/article/div/div[2]/div/div/div[2]/div[1]/ul/div/li/div/div/div[2]/div[1]/span")))
                 time.sleep(1)
                 titulo =titulo.text
-                sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
-                sentimiento = sentiment.sentiment(titulo)
+                #sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
+                sentiment = create_analyzer(task="sentiment", lang="es")  
+                #sentimiento = sentiment.sentiment(titulo)
+                sentimiento = sentiment.predict(titulo).output
             except Exception as e:
                 print(e,"No se encontro el titulo")
 
@@ -75,7 +77,8 @@ def scraping_instagram(keyword,pagina,driver):
                     comentari = element.find_element(By.CLASS_NAME,"MOdxS ")
                     time.sleep(1)  
                     coment = nombre + ": " + comentari.text
-                    sentimientocomenta =sentiment.sentiment(comentari.text)
+                    #sentimientocomenta =sentiment.sentiment(comentari.text)
+                    sentimientocomenta = sentiment.predict(comentari.text).output
                     cometarios.append(coment)
                     sentimientocomentari.append(sentimientocomenta)
             except Exception as e:

@@ -17,6 +17,7 @@ import os
 from Services import Database
 from sentiment_analysis_spanish import sentiment_analysis
 from sklearn.feature_extraction.text import CountVectorizer
+from pysentimiento import create_analyzer
 def scraping_faceook(url2,pagina,driver):
     datos = []
     window = driver
@@ -67,16 +68,17 @@ def scraping_faceook(url2,pagina,driver):
         time.sleep(2)
         try:
             titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
-            sentiment = sentiment_analysis.SentimentAnalysisSpanish()   
+            # sentiment = sentiment_analysis.SentimentAnalysisSpanish() 
+            sentiment = create_analyzer(task="sentiment", lang="es")  
             masclcik = element.find_element(By.CLASS_NAME,'_5rgt').find_element(By.CSS_SELECTOR,"span[data-sigil='more']")
             masclcik.click()
             mas = element.find_element(By.CLASS_NAME,'text_exposed_show')
             titulo = titulo + ' ' + mas.text
-            sentimiento = sentiment.sentiment(titulo)
+            sentimiento = sentiment.predict(titulo).output
         except Exception as e:
             if len(element.find_elements(By.CLASS_NAME,'_5rgt')) <= 206:
                 titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
-                sentimiento = sentiment.sentiment(titulo)
+                sentimiento = sentiment.predict(titulo).output
             else:
                 titulo = None
                 sentimiento = None
@@ -160,7 +162,7 @@ def scraping_faceook(url2,pagina,driver):
                             nombre = element.find_element(By.CLASS_NAME,'_2b05').text
                             comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
                             cometario = nombre + ': ' + comentario.text
-                            sentimientocomenta =sentiment.sentiment(comentario.text)
+                            sentimientocomenta = sentiment.predict(comentario.text).output
                             cometarios.append(cometario)
                             sentimientocomentari.append(sentimientocomenta)   
                         break
