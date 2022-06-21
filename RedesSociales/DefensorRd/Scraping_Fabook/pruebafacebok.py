@@ -59,12 +59,13 @@ def scraping_faceook(url2,pagina,driver):
         titulo = None   
         fuente = 'facebook' 
         linkk = None 
-        cometarios = [] 
+        comentarios = []
         likes = None
         nombre = None
         fecha = None
         mas = None
-        sentimientocomentari = []
+        sentiminetcomentario = []
+        red = 'facebook'
         time.sleep(2)
         try:
             titulo = element.find_element(By.CLASS_NAME,'_5rgt').text
@@ -163,13 +164,13 @@ def scraping_faceook(url2,pagina,driver):
                             comentario = element.find_element(By.CSS_SELECTOR,"div[data-sigil='comment-body']")
                             cometario = nombre + ': ' + comentario.text
                             sentimientocomenta = sentiment.predict(comentario.text).output
-                            cometarios.append(cometario)
-                            sentimientocomentari.append(sentimientocomenta)   
+                            comentarios.append(cometario)
+                            sentiminetcomentario.append(sentimientocomenta)   
                         break
                     last_height = new_height
             
             except Exception as e:
-                cometarios = "0"
+                comentarios = "0"
 
                 print(e)
                 time.sleep(2)
@@ -181,7 +182,8 @@ def scraping_faceook(url2,pagina,driver):
             print(e) 
             time.sleep(2)
        
-        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = cometarios,fecha = fecha,pagina =pagina,sentimiento = sentimiento,sentiminetcomentario = sentimientocomentari)
+
+        dic = dict(titulo = titulo, fuente = fuente, link = linkk,likes = likes,sharedorcoments = sharedcomenst,comentarios = comentarios,fecha = fecha,pagina =pagina,sentimiento = sentimiento,sentiminetcomentario = sentiminetcomentario,red = red)
         datos.append(dic) 
         print(datos, "aqui estamos puyando")
     data = Database.insert_data(datos)

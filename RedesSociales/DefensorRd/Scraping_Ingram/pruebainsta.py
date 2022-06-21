@@ -38,11 +38,12 @@ def scraping_instagram(keyword,pagina,driver):
         titulo = None#   
         fuente = 'Instagram'#
         linkk = None# 
-        cometarios = []#
+        comentarios = []#
         likes = None#
         fecha = None#
         sentimiento = None#
-        sentimientocomentari = []
+        sentiminetcomentario = []
+        red = 'Instagram'
         
         try:
             
@@ -79,8 +80,8 @@ def scraping_instagram(keyword,pagina,driver):
                     coment = nombre + ": " + comentari.text
                     #sentimientocomenta =sentiment.sentiment(comentari.text)
                     sentimientocomenta = sentiment.predict(comentari.text).output
-                    cometarios.append(coment)
-                    sentimientocomentari.append(sentimientocomenta)
+                    comentarios.append(coment)
+                    sentiminetcomentario.append(sentimientocomenta)
             except Exception as e:
                 print(e, "error en la linea 62 de scraping_instagram")
                 
@@ -121,8 +122,8 @@ def scraping_instagram(keyword,pagina,driver):
             print(e)
             print("No hay mas posts")
             break  
-        dic = dict(titulo=titulo, fuente=fuente,cometarios=cometarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina,sentimiento=sentimiento,sentimientocomentario=sentimientocomentari)
+        dic = dict(titulo=titulo, fuente=fuente,comentarios=comentarios,linkk=linkk,likes=likes,fecha=fecha,pagina=pagina,sentimiento=sentimiento,sentiminetcomentario=sentiminetcomentario,red=red)
         datos.append(dic)
         print(datos, "Aqui esta el dato")
-    data = Database.insert_data2(datos)
+    data = Database.insert_data(datos)
     print(data, f"error en pruebafacebook linea 183")

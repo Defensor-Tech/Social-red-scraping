@@ -75,9 +75,9 @@ def do_something(sc):
     
     try:
         username.clear() 
-        username.send_keys("castillopenal0903") 
+        username.send_keys("make_it_exotic") 
         password.clear() 
-        password.send_keys("Frias123vv") 
+        password.send_keys("Frias123vv!") 
     except Exception as e:
         time.sleep(60)
         # username.clear() 

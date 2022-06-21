@@ -27,10 +27,10 @@ def insert_data(data):
     print("datos insertados")
     # print(collections_defensor,"Insertado")
 
-def insert_data2(data):
-    # print(data, "error en la linea 21 de database maldito")
-    print("entro a insertar datos")
-    collections_defensor2.insert_many(data)
-    print("datos insertados")
-    # print(collections_defensor,"Insertado")
+# def insert_data2(data):
+#     # print(data, "error en la linea 21 de database maldito")
+#     print("entro a insertar datos")
+#     collections_defensor2.insert_many(data)
+#     print("datos insertados")
+#     # print(collections_defensor,"Insertado")
 
